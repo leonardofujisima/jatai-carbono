@@ -1,0 +1,67 @@
+# ==================
+# Ambiente virtual =
+# ==================
+venv/
+.env
+.env.*
+!.env.example
+
+# ========
+# Python =
+# ========
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ===========
+# Streamlit =
+# ===========
+.streamlit/secrets.toml
+
+# ==============
+# Logs e cache =
+# ==============
+*.log
+.cache/
+.pytest_cache/
+
+# ===================
+# Jupyter / IPython =
+# ===================
+.ipynb_checkpoints/
+
+# =====================
+# Sistema operacional =
+# =====================
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Mac
+.DS_Store
+
+# =================
+# IDEs / Editores =
+# =================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ========
+# Testes =
+# ========
+.coverage
+htmlcov/
+
+# ========
+# Outros =
+# ========
+*.sqlite3
+*.db
