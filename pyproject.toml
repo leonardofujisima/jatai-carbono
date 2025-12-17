@@ -1,0 +1,13 @@
+[project]
+name = "jatai-carbono"
+version = "0.1.0"
+dependencies = [
+    "streamlit",
+    "pandas",
+    "requests",
+    "openai",
+    "python-dotenv"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

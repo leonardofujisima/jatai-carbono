@@ -24,7 +24,15 @@ catmas_raw <- read_csv(
 
 # Limpeza inicial de nomes
 catmas <- catmas_raw %>% 
-  clean_names()
+  clean_names() %>% 
+  select(
+    catmas_codigo_grupo,
+    catmas_grupo,
+    catmas_codigo_classe,
+    catmas_classe,
+    catmas_codigo_material,
+    catmas_material
+  )
 
 # Função para normalização de textos
 normalizar_texto <- function(x) {
@@ -40,7 +48,7 @@ normalizar_texto <- function(x) {
 # Normalização da descrição dos itens
 catmas <- catmas %>%
   mutate(
-    catmas_item_norm = normalizar_texto(catmas_item)
+    catmas_material_norm = normalizar_texto(catmas_material)
   )
 
 # Criação de base tratada
@@ -48,33 +56,14 @@ catmas_tratado <- catmas %>%
   group_by(
     catmas_codigo_grupo,
     catmas_codigo_classe,
-    catmas_codigo_material,
-    catmas_codigo_item
+    catmas_codigo_material
   ) %>%
-  slice_max(nchar(catmas_item_norm), with_ties = FALSE) %>%
-  ungroup()
+  slice_max(nchar(catmas_material_norm), with_ties = FALSE) 
 
-# Criação da base final e ID de item
-catmas_final <- catmas_tratado %>%
-  mutate(
-    catmas_item_key = paste(
-      "MG_CATMAS",
-      catmas_codigo_grupo,
-      catmas_codigo_classe,
-      catmas_codigo_material,
-      catmas_codigo_item,
-      sep = "_"
-    ),
-    catmas_item_id = paste0(
-      catmas_item_key,
-      "_",
-      substr(digest::digest(catmas_item_norm), 1, 8)
-    )
-  )
 
 # Validação de itens duplicados
-catmas_final %>%
-  count(catmas_item_id) %>%
+catmas_tratado %>%
+  count() %>%
   filter(n > 1)
 
 #=======================
@@ -82,7 +71,7 @@ catmas_final %>%
 #=======================
 
 write_parquet(
-  catmas_final,
+  catmas_tratado,
   sink = "C:/Users/leona/OneDrive/Desktop/jatai-carbono/data/catmas/gold/catmas_mg_analitico.parquet",
   compression = "snappy"
 )
