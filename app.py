@@ -12,6 +12,9 @@ from jatai_carbono.services.catmas import buscar_catmas
 from jatai_carbono.services.translate import traduzir_para_ingles
 from jatai_carbono.services.climatiq import buscar_fatores_climatiq
 
+import re
+import unicodedata
+
 
 def formatar_decimal_ptbr(valor: float) -> str:
     """
@@ -19,6 +22,27 @@ def formatar_decimal_ptbr(valor: float) -> str:
     arredondando para duas casas decimais.
     """
     return f"{valor:.2f}".replace(".", ",")
+
+
+
+def normalizar_texto(texto: str) -> str:
+    """
+    Normaliza texto para comparação:
+    - lowercase
+    - remove acentos
+    - remove pontuação
+    - remove espaços extras
+    """
+    if not texto:
+        return ""
+
+    texto = texto.lower()
+    texto = unicodedata.normalize("NFKD", texto)
+    texto = texto.encode("ascii", "ignore").decode("ascii")
+    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
+    texto = re.sub(r"\s+", " ", texto).strip()
+
+    return texto
 
 
 # ============================================================
@@ -70,7 +94,7 @@ st.markdown(
 )
 
 try:
-    df_catmas = buscar_catmas(texto)
+    df_catmas = buscar_catmas(normalizar_texto(texto))
     if df_catmas.empty:
         st.info("Nenhum material ou serviço encontrado no CATMAS.")
     else:
