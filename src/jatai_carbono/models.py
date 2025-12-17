@@ -40,3 +40,8 @@ class ItemEmissionSearchResult:
     input_item: str
     classification: ISICClassification
     factors: List[EmissionFactor]
+
+    # Metadata da origem
+    source: Optional[str] = None               # "CATMAS-MG" | "NLP"
+    catmas_codigo_item: Optional[str] = None
+    catmas_item: Optional[str] = None
