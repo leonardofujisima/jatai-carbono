@@ -7,17 +7,21 @@ from jatai_carbono.models import (
     EmissionFactor,
     ItemEmissionSearchResult
 )
-from jatai_carbono.utils.semantic import extrair_termo_base
-from jatai_carbono.mappings.emission_terms import mapear_termo_emissao
+from jatai_carbono.utils.semantic import inferir_termo_emissao
 
 
-
-
+# ------------------------------------------------------------
+# CATMAS
+# ------------------------------------------------------------
 
 def buscar_candidatos_catmas(item_pt: str):
     df_catmas = carregar_catmas()
     return buscar_itens_catmas(item_pt, df_catmas)
 
+
+# ------------------------------------------------------------
+# PIPELINE PRINCIPAL
+# ------------------------------------------------------------
 
 def buscar_fatores_por_item(
     item_pt: str,
@@ -35,14 +39,18 @@ def buscar_fatores_por_item(
         catmas_codigo_item = None
         catmas_item = None
 
-    # ISIC
+    # -----------------------------
+    # ISIC (continua igual)
+    # -----------------------------
+
     isic_raw = get_isic_from_portuguese_openai(texto_base)
     classification = ISICClassification(**isic_raw)
 
-    # Emissões
-    termo_base = extrair_termo_base(texto_base)
-    termo_emissao = mapear_termo_emissao(termo_base)
+    # -----------------------------
+    # EMISSÕES (AJUSTE-CHAVE)
+    # -----------------------------
 
+    termo_emissao = inferir_termo_emissao(texto_base)
     fatores_raw = buscar_fatores_climatiq(termo_emissao)
     fatores = [EmissionFactor(**f) for f in fatores_raw]
 
