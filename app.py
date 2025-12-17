@@ -74,7 +74,12 @@ try:
     if df_catmas.empty:
         st.info("Nenhum material ou serviço encontrado no CATMAS.")
     else:
-        st.dataframe(df_catmas, use_container_width=True)
+        st.dataframe(
+            df_catmas.reset_index(drop=True),
+            hide_index=True,
+            use_container_width=True
+        )
+
 except Exception as e:
     st.error(f"Erro ao buscar CATMAS: {e}")
     st.stop()
