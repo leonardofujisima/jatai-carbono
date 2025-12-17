@@ -8,7 +8,10 @@ from jatai_carbono.models import (
     ItemEmissionSearchResult
 )
 from jatai_carbono.utils.semantic import extrair_termo_base
-from jatai_carbono.data.emission_terms import mapear_termo_emissao
+from jatai_carbono.mappings.emission_terms import mapear_termo_emissao
+
+
+
 
 
 def buscar_candidatos_catmas(item_pt: str):

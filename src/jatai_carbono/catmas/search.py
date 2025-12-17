@@ -38,7 +38,7 @@ def buscar_itens_catmas(
         candidatos.loc[candidatos["penal_servico"], "score"] -= 10
 
     # Prioriza materiais
-    candidatos["is_material"] = candidatos["tipo_material_servico"].str.contains(
+    candidatos["is_material"] = candidatos["catmas_tipo"].str.contains(
         "material", case=False, na=False
     )
     candidatos.loc[candidatos["is_material"], "score"] += 5
