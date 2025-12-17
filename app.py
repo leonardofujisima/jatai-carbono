@@ -75,7 +75,9 @@ try:
         st.info("Nenhum material ou serviço encontrado no CATMAS.")
     else:
         st.dataframe(
-            df_catmas.reset_index(drop=True),
+            df_catmas
+                .drop(columns=["catmas_material_norm"], errors="ignore")
+                .reset_index(drop=True),
             hide_index=True,
             use_container_width=True
         )
