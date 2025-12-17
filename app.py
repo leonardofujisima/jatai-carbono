@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+# Adiciona src/ ao PYTHONPATH
+SRC_PATH = Path(__file__).resolve().parent / "src"
+sys.path.append(str(SRC_PATH))
+
 import streamlit as st
 from jatai_carbono.services import buscar_fatores_por_item
 
