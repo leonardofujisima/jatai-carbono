@@ -6,6 +6,12 @@ from jatai_carbono.services.catmas import buscar_catmas
 from jatai_carbono.services.translate import traduzir_para_ingles
 from jatai_carbono.services.climatiq import buscar_fatores_climatiq
 
+import sys
+from pathlib import Path
+
+# Garante que src/ esteja no PYTHONPATH
+sys.path.append(str(Path(__file__).resolve().parent / "src"))
+
 def formatar_decimal_ptbr(valor: float) -> str:
     """
     Formata número decimal no padrão pt-BR,
