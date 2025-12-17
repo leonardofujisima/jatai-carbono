@@ -1,4 +1,7 @@
 streamlit
+pandas
+pyarrow
 requests
 python-dotenv
 openai
+rapidfuzz>=3.0
